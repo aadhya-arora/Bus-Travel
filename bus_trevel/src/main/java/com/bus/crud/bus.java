@@ -1,12 +1,14 @@
 package com.bus.crud;
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
+
+import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
 public class bus {
     Scanner sc=new Scanner(System.in);
@@ -59,5 +61,50 @@ public class bus {
         {
             System.out.println(e.getMessage());
         }
+     }
+     public void fetchAll(Connection connection)
+     {
+        System.out.println("Displaying all buses..");
+        try{
+            int i=5;
+            while(i!=0)
+            {
+                System.out.println(".");
+                Thread.sleep(450);
+                i--;
+            }
+            String query="Select bus_no,date_booked,capacity,starting_point,destination_point,amount,status,time from buses";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            ResultSet rSet=pstat.executeQuery();
+            while(rSet.next())
+            {
+                String bus_no=rSet.getString("bus_no");
+                Date date_booked=rSet.getDate("date_booked");
+                int capacity=rSet.getInt("capacity");
+                String start=rSet.getString("starting_point");
+                String dest=rSet.getString("destination_point");
+                double amt=rSet.getDouble("amount");
+                String status=rSet.getString("status");
+                Time time=rSet.getTime("time");
+                System.out.println(bus_no+"     |     "+date_booked+"    |    "+capacity+"   |   "+start+"     |     "+dest+"    |    "+amt+"   |   "+status+"   |   "+time);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+     }
+     public void fetch()
+     {
+        System.out.println("Filter acc to:");
+        System.out.println("1. Time");
+        System.out.println("2. Date");
+        System.out.println("3. Capacity");
+        System.out.println("4. Destination");
+        System.out.println("5. Departure");
+        System.out.println("5. Status");
+        System.out.println("6. Amount");
+        int choice=sc.nextInt();
+        
      }
 }
