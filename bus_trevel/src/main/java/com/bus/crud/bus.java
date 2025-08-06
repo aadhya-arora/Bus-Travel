@@ -1,4 +1,5 @@
 package com.bus.crud;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,11 +9,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
-
 public class bus {
     Scanner sc=new Scanner(System.in);
-     public void create(Connect connection)
+     public void create(Connection connection)
      {
         try{
             System.out.println("Bus No. :");
@@ -57,6 +56,10 @@ public class bus {
             }
 
         }
+        catch(InterruptedException e)
+        {
+            System.out.println(e.getMessage());
+        }
         catch(SQLException e)
         {
             System.out.println(e.getMessage());
@@ -89,22 +92,90 @@ public class bus {
                 System.out.println(bus_no+"     |     "+date_booked+"    |    "+capacity+"   |   "+start+"     |     "+dest+"    |    "+amt+"   |   "+status+"   |   "+time);
             }
         }
+        catch(InterruptedException e)
+        {
+            System.out.println(e.getMessage());
+        }
         catch(Exception e)
         {
             System.out.println(e.getMessage());
         }
      }
-     public void fetch()
+     public void fetch(Connection connection)
      {
         System.out.println("Filter acc to:");
-        System.out.println("1. Time");
-        System.out.println("2. Date");
-        System.out.println("3. Capacity");
-        System.out.println("4. Destination");
-        System.out.println("5. Departure");
-        System.out.println("5. Status");
-        System.out.println("6. Amount");
+        System.out.println("1. Capacity");
+        System.out.println("2. Destination");
+        System.out.println("3. Departure");
+        System.out.println("4. Status");
+        System.out.println("5. Amount");
         int choice=sc.nextInt();
-        
+        switch(choice)
+        {
+           
+            case 1:
+            fetch_capacity(connection);
+            break;
+            case 2:
+            fetch_destination(connection);
+            break;
+            case 3:
+            fetch_departure(connection);
+            break;
+            case 4:
+            fetch_status(connection);
+            break;
+            case 5:
+            fetch_amount(connection);
+            break;
+            default:
+            System.out.println("Wrong choice");
+            break;
+        }
      }
+     public void fetch_capacity(Connection connection)
+     {
+        
+        System.out.println("Capacity ?");
+        int cap=sc.nextInt();
+        System.out.print("Filtering acc to capacity..");
+        try{
+            int i=5;
+            while(i!=0)
+            {
+                System.out.print("..");
+                Thread.sleep(450);
+                i--;
+            }
+            
+            String query="Select * from buses where capacity>=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setInt(1, cap);
+            ResultSet rSet=pstat.executeQuery();
+            while(rSet.next())
+            {
+                String bus_no=rSet.getString("bus_no");
+                Date date_booked=rSet.getDate("date_booked");
+                String start=rSet.getString("starting_point");
+                String dest=rSet.getString("destination_point");
+                double amt=rSet.getDouble("amount");
+                String status=rSet.getString("status");
+                Time time=rSet.getTime("time");
+                System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+amt+"   |   "+status+"   |   "+time);
+            }
+        }
+        catch(InterruptedException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+     }
+     public void fetch_destination(Connection connection) {}
+     public void fetch_departure(Connection connection) {}
+     public void fetch_status(Connection connection) {}
+     public void fetch_amount(Connection connection) {}
+
 }
