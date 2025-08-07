@@ -148,7 +148,7 @@ public class bus {
                 i--;
             }
             
-            String query="Select * from buses where capacity>=?";
+            String query="Select bus_no,date_booked,starting_point,destination_point,amount,status,time from buses where capacity>=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setInt(1, cap);
             ResultSet rSet=pstat.executeQuery();
@@ -173,9 +173,138 @@ public class bus {
             System.out.println(e.getMessage());
         }
      }
-     public void fetch_destination(Connection connection) {}
-     public void fetch_departure(Connection connection) {}
-     public void fetch_status(Connection connection) {}
-     public void fetch_amount(Connection connection) {}
+     public void fetch_destination(Connection connection) {
+        System.out.println("Destination to?");
+        String dest=sc.next();
+        System.out.print("Filtering acc to destination..");
+        try {
+             int i=5;
+            while(i!=0)
+            {
+                System.out.print("..");
+                Thread.sleep(450);
+                i--;
+            }
+            String query="Select * from buses where destination_point=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setString(1, dest);
+            ResultSet rSet=pstat.executeQuery();
+            while(rSet.next())
+            {
+                String bus_no=rSet.getString("bus_no");
+                Date date_booked=rSet.getDate("date_booked");
+                String start=rSet.getString("starting_point");
+                String dest=rSet.getString("destination_point");
+                double amt=rSet.getDouble("amount");
+                String status=rSet.getString("status");
+                Time time=rSet.getTime("time");
+                int cap=rSet.getInt("capacity");
+                System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+     }
+     public void fetch_departure(Connection connection) {
+        System.out.println("Departure from?");
+        String start=sc.next();
+        System.out.print("Filtering acc to departure point..");
+        try {
+             int i=5;
+            while(i!=0)
+            {
+                System.out.print("..");
+                Thread.sleep(450);
+                i--;
+            }
+            String query="Select * from buses where starting_point=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setString(1, start);
+            ResultSet rSet=pstat.executeQuery();
+            while(rSet.next())
+            {
+                String bus_no=rSet.getString("bus_no");
+                Date date_booked=rSet.getDate("date_booked");
+                String start=rSet.getString("starting_point");
+                String dest=rSet.getString("destination_point");
+                double amt=rSet.getDouble("amount");
+                String status=rSet.getString("status");
+                Time time=rSet.getTime("time");
+                int cap=rSet.getInt("capacity");
+                System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+     }
+     public void fetch_status(Connection connection) {
+        System.out.println("Status (functioning or in repair)?");
+        String stat=sc.nextLine();
+        System.out.print("Filtering acc to status..");
+        try {
+             int i=5;
+            while(i!=0)
+            {
+                System.out.print("..");
+                Thread.sleep(450);
+                i--;
+            }
+            String query="Select * from buses where status=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setString(1, stat);
+            ResultSet rSet=pstat.executeQuery();
+            while(rSet.next())
+            {
+                String bus_no=rSet.getString("bus_no");
+                Date date_booked=rSet.getDate("date_booked");
+                String start=rSet.getString("starting_point");
+                String dest=rSet.getString("destination_point");
+                double amt=rSet.getDouble("amount");
+                String status=rSet.getString("status");
+                Time time=rSet.getTime("time");
+                int cap=rSet.getInt("capacity");
+                System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+     }
+     public void fetch_amount(Connection connection) {
+        System.out.println("Range ?");
+        int amount=sc.nextInt();
+        System.out.print("Filtering acc to amount..");
+        try {
+             int i=5;
+            while(i!=0)
+            {
+                System.out.print("..");
+                Thread.sleep(450);
+                i--;
+            }
+            String query="Select * from buses where amount=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setInt(1, amount);
+            ResultSet rSet=pstat.executeQuery();
+            while(rSet.next())
+            {
+                String bus_no=rSet.getString("bus_no");
+                Date date_booked=rSet.getDate("date_booked");
+                String start=rSet.getString("starting_point");
+                String dest=rSet.getString("destination_point");
+                double amt=rSet.getDouble("amount");
+                String status=rSet.getString("status");
+                Time time=rSet.getTime("time");
+                int cap=rSet.getInt("capacity");
+                System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+     }
 
 }
