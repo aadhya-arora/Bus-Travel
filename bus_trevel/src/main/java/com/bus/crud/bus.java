@@ -110,6 +110,7 @@ public class bus {
         System.out.println("4. Status");
         System.out.println("5. Amount");
         int choice=sc.nextInt();
+        sc.nextLine();
         switch(choice)
         {
            
@@ -175,7 +176,7 @@ public class bus {
      }
      public void fetch_destination(Connection connection) {
         System.out.println("Destination to?");
-        String dest=sc.next();
+        String dest=sc.nextLine();
         System.out.print("Filtering acc to destination..");
         try {
              int i=5;
@@ -208,7 +209,7 @@ public class bus {
      }
      public void fetch_departure(Connection connection) {
         System.out.println("Departure from?");
-        String start=sc.next();
+        String start=sc.nextLine();
         System.out.print("Filtering acc to departure point..");
         try {
              int i=5;
@@ -285,7 +286,7 @@ public class bus {
                 Thread.sleep(450);
                 i--;
             }
-            String query="Select * from buses where amount=?";
+            String query="Select * from buses where amount<=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setInt(1, amount);
             ResultSet rSet=pstat.executeQuery();
@@ -306,5 +307,250 @@ public class bus {
             System.out.println(e.getMessage());
         }
      }
+     public void del_bus(Connection connection)
+     {
+        System.out.println("Enter the Bus No. :");
+        String bus=sc.next();
+        
+        try {
+            String query="Delete from buses where bus_no=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setString(1, bus);
+            int rSet=pstat.executeUpdate();
+            if(rSet>0)
+            {
+                System.out.print("Deleting..");
+                int i=5;
+                while(i!=0)
+                {
+                    System.out.print("..");
+                    Thread.sleep(450);
+                    i--;
+                }
+                System.out.println("Successfully Deleted");
+            }
+            else
+            {
+                System.out.println("No such bus");
+            }
+            
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+     }
 
+     public void update_bus(Connection connection)
+     {
+        System.out.println("What do you want to update ?");
+        System.out.println("1. Capacity");
+        System.out.println("2. Departure point");
+        System.out.println("3. Destination point");
+        System.out.println("4. Amount");
+        System.out.println("5. Status");
+        int choice=sc.nextInt();
+        switch(choice)
+        {
+            case 1:
+              update_capacity(connection);
+              break;
+            case 2:
+              update_dept(connection);
+              break;
+            case 3:
+              update_dest(connection);
+              break;
+            case 4:
+              update_amt(connection);
+              break;
+            case 5:
+              update_status(connection);
+              break;
+            default:
+              System.out.println("Wrong choice");
+              break;
+        }
+     }
+
+     public void update_capacity(Connection connection)
+     {
+        try {
+            System.out.println("Bus Id:");
+            String bus_id=sc.next();
+            System.out.println("Change capacity to :");
+            int cap=sc.nextInt();
+            String query="Update buses set capacity=? where bus_id=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setInt(1,cap);
+            pstat.setString(2, bus_id);
+            int rowsAffected=pstat.executeUpdate();
+            if(rowsAffected>0)
+            {
+                int i=5;
+                
+                    System.out.print("Updating");
+                while(i!=0)
+                {
+                    System.out.print("..");
+                    Thread.sleep(450);
+                    i--;
+                }
+                System.out.println("Capacity updated successfully");
+            }
+            else{
+                System.out.println("Not updated");
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+     }
+     public void update_dept(Connection connection)
+     {
+        try{
+            System.out.println("Bus Id:");
+            sc.nextLine();
+            String bus_id=sc.next();
+            sc.nextLine();
+            System.out.println("Change Departure point to:");
+            String dept=sc.nextLine();
+            String query="Update buses set starting_point=? where bus_id=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setString(1,dept);
+            pstat.setString(2,bus_id);
+            int rowsAffected=pstat.executeUpdate();
+            if(rowsAffected>0)
+            {
+                int i=5;
+                
+                    System.out.print("Updating");
+                while(i!=0)
+                {
+                    System.out.print("..");
+                    Thread.sleep(450);
+                    i--;
+                }
+                System.out.println("Departure point updated successfully");
+            }
+            else{
+                System.out.println("Not updated");
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+     }
+     public void update_dest(Connection connection)
+     {
+        try {
+            System.out.println("Bus Id:");
+            String bus_id=sc.next();
+            sc.nextLine();
+            System.out.println("Change Destination point to:");
+
+            String dest=sc.nextLine();
+            String query="Update buses set destination_point=? where bus_id=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setString(1,dest);
+            pstat.setString(2,bus_id);
+            int rowsAffected=pstat.executeUpdate();
+            if(rowsAffected>0)
+            {
+                int i=5;
+                
+                    System.out.print("Updating");
+                while(i!=0)
+                {
+                    System.out.print("..");
+                    Thread.sleep(450);
+                    i--;
+                }
+                System.out.println("Destination point updated successfully");
+            }
+            else{
+                System.out.println("Not updated");
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+     }
+
+     public void update_amt(Connection connection)
+     {
+        try {
+            System.out.println("Bus Id:");
+            String bus_id=sc.next();
+            System.out.println("Change amount to:");
+            double amt=sc.nextDouble();
+            String query="Update buses set amount=? where bus_id=?";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setDouble(1,amt);
+            pstat.setString(2,bus_id);
+            int rowsAffected=pstat.executeUpdate();
+            if(rowsAffected>0)
+            {
+                int i=5;
+                
+                    System.out.print("Updating");
+                while(i!=0)
+                {
+                    System.out.print("..");
+                    Thread.sleep(450);
+                    i--;
+                }
+                System.out.println("Amount updated successfully");
+            }
+            else{
+                System.out.println("Not updated");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+     }
+     public void update_status(Connection connection)
+     {
+         try {
+        System.out.print("Enter Bus No: ");
+        String bus_id = sc.next();
+
+        String getStatusQuery = "SELECT status FROM buses WHERE bus_id = ?";
+        PreparedStatement psGet = connection.prepareStatement(getStatusQuery);
+        psGet.setString(1, bus_id);
+        ResultSet rs = psGet.executeQuery();
+
+        if (!rs.next()) {
+            System.out.println("❌ No bus found with number: " + bus_id);
+            return;
+        }
+
+        String currentStatus = rs.getString("status");
+        String newStatus;
+
+        if ("functioning".equalsIgnoreCase(currentStatus)) {
+            newStatus = "in_repair";
+        } else if ("in_repair".equalsIgnoreCase(currentStatus)) {
+            newStatus = "functioning";
+        } else {
+            System.out.println("Unknown status: " + currentStatus);
+            return;
+        }
+
+        String updateQuery = "UPDATE buses SET status = ? WHERE bus_id = ?";
+        PreparedStatement psUpdate = connection.prepareStatement(updateQuery);
+        psUpdate.setString(1, newStatus);
+        psUpdate.setString(2, bus_id);
+
+        int rowsUpdated = psUpdate.executeUpdate();
+        if (rowsUpdated > 0) {
+            System.out.println("Status updated to: " + newStatus);
+        } else {
+            System.out.println(" Failed to update status.");
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+     }
 }
