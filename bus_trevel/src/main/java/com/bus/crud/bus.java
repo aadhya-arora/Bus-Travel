@@ -553,4 +553,45 @@ public class bus {
         e.printStackTrace();
     }
      }
+
+     public void choose(Connection connection)
+     {
+        while(true)
+        {
+        System.out.println("----------------------------------");
+        System.out.println("Welcome to the Bus Handling system");
+        System.out.println("----------------------------------");
+        System.out.println("Choose an option");
+        System.out.println("1. Add a new bus");
+        System.out.println("2. Fetch bus details");
+        System.out.println("3. Update bus details");
+        System.out.println("0. Exit");
+        int choice=sc.nextInt();
+        switch(choice)
+        {
+            case 1:
+            create(connection);
+            break;
+            case 2:
+            fetch(connection);
+            break;
+            case 3:
+            update_bus(connection);
+            break;
+            case 0:
+            try
+            {
+                exit();
+            }
+            catch(InterruptedException e)
+            {
+                System.out.println(e.getMessage());
+            }
+            return;
+            default:
+            System.out.println("Wrong Option");
+        }
+    }
+        
+     }
 }
