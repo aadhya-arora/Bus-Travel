@@ -195,12 +195,12 @@ public class bus {
                 String bus_no=rSet.getString("bus_no");
                 Date date_booked=rSet.getDate("date_booked");
                 String start=rSet.getString("starting_point");
-                String dest=rSet.getString("destination_point");
+                String dest2=rSet.getString("destination_point");
                 double amt=rSet.getDouble("amount");
                 String status=rSet.getString("status");
                 Time time=rSet.getTime("time");
                 int cap=rSet.getInt("capacity");
-                System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
+                System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest2+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
             }
             
         } catch (Exception e) {
@@ -227,13 +227,13 @@ public class bus {
             {
                 String bus_no=rSet.getString("bus_no");
                 Date date_booked=rSet.getDate("date_booked");
-                String start=rSet.getString("starting_point");
+                String start2=rSet.getString("starting_point");
                 String dest=rSet.getString("destination_point");
                 double amt=rSet.getDouble("amount");
                 String status=rSet.getString("status");
                 Time time=rSet.getTime("time");
                 int cap=rSet.getInt("capacity");
-                System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
+                System.out.println(bus_no+"     |     "+date_booked+"   |   "+start2+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
             }
             
         } catch (Exception e) {
@@ -594,4 +594,15 @@ public class bus {
     }
         
      }
+     private void exit() throws InterruptedException {
+    System.out.print("Exiting");
+    int i = 5;
+    while (i-- > 0) {
+        System.out.print(".");
+        Thread.sleep(450);
+    }
+    System.out.println(" Goodbye!");
+    System.exit(0);
+}
+
 }
