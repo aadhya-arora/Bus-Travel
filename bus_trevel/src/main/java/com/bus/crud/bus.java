@@ -67,15 +67,16 @@ public class bus {
      }
      public void fetchAll(Connection connection)
      {
-        System.out.println("Displaying all buses..");
+        System.out.print("Displaying all buses..");
         try{
             int i=5;
             while(i!=0)
             {
-                System.out.println(".");
+                System.out.print(".");
                 Thread.sleep(450);
                 i--;
             }
+            System.out.println();
             String query="Select bus_no,date_booked,capacity,starting_point,destination_point,amount,status,time from buses";
             PreparedStatement pstat=connection.prepareStatement(query);
             ResultSet rSet=pstat.executeQuery();
@@ -89,7 +90,7 @@ public class bus {
                 double amt=rSet.getDouble("amount");
                 String status=rSet.getString("status");
                 Time time=rSet.getTime("time");
-                System.out.println(bus_no+"     |     "+date_booked+"    |    "+capacity+"   |   "+start+"     |     "+dest+"    |    "+amt+"   |   "+status+"   |   "+time);
+                System.out.println(bus_no+"     |     "+date_booked+"    |    "+capacity+"   |   "+start+" to "+dest+"       |    "+amt+"   |   "+status+"   |   "+time);
             }
         }
         catch(InterruptedException e)
@@ -109,6 +110,7 @@ public class bus {
         System.out.println("3. Departure");
         System.out.println("4. Status");
         System.out.println("5. Amount");
+        System.out.println("0. Exit");
         int choice=sc.nextInt();
         sc.nextLine();
         switch(choice)
@@ -129,6 +131,8 @@ public class bus {
             case 5:
             fetch_amount(connection);
             break;
+            case 0:
+            return;
             default:
             System.out.println("Wrong choice");
             break;
@@ -148,13 +152,15 @@ public class bus {
                 Thread.sleep(450);
                 i--;
             }
-            
+            System.out.println();
             String query="Select bus_no,date_booked,starting_point,destination_point,amount,status,time from buses where capacity>=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setInt(1, cap);
             ResultSet rSet=pstat.executeQuery();
+              boolean found = false; 
             while(rSet.next())
             {
+                found=true;
                 String bus_no=rSet.getString("bus_no");
                 Date date_booked=rSet.getDate("date_booked");
                 String start=rSet.getString("starting_point");
@@ -164,6 +170,9 @@ public class bus {
                 Time time=rSet.getTime("time");
                 System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+amt+"   |   "+status+"   |   "+time);
             }
+              if (!found) {
+            System.out.println("No such bus found");
+        }
         }
         catch(InterruptedException e)
         {
@@ -175,7 +184,7 @@ public class bus {
         }
      }
      public void fetch_destination(Connection connection) {
-        System.out.println("Destination to?");
+        System.out.println("Destination ?");
         String dest=sc.nextLine();
         System.out.print("Filtering acc to destination..");
         try {
@@ -186,12 +195,15 @@ public class bus {
                 Thread.sleep(450);
                 i--;
             }
+            System.out.println();
             String query="Select * from buses where destination_point=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setString(1, dest);
             ResultSet rSet=pstat.executeQuery();
+            boolean found=false;
             while(rSet.next())
             {
+                found=true;
                 String bus_no=rSet.getString("bus_no");
                 Date date_booked=rSet.getDate("date_booked");
                 String start=rSet.getString("starting_point");
@@ -202,6 +214,9 @@ public class bus {
                 int cap=rSet.getInt("capacity");
                 System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest2+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
             }
+              if (!found) {
+            System.out.println("No such bus found");
+        }
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -219,12 +234,15 @@ public class bus {
                 Thread.sleep(450);
                 i--;
             }
+            System.out.println();
             String query="Select * from buses where starting_point=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setString(1, start);
             ResultSet rSet=pstat.executeQuery();
+            boolean found=false;
             while(rSet.next())
             {
+                found=true;
                 String bus_no=rSet.getString("bus_no");
                 Date date_booked=rSet.getDate("date_booked");
                 String start2=rSet.getString("starting_point");
@@ -235,6 +253,9 @@ public class bus {
                 int cap=rSet.getInt("capacity");
                 System.out.println(bus_no+"     |     "+date_booked+"   |   "+start2+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
             }
+              if (!found) {
+            System.out.println("No such bus found");
+        }
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -252,12 +273,15 @@ public class bus {
                 Thread.sleep(450);
                 i--;
             }
+            System.out.println();
             String query="Select * from buses where status=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setString(1, stat);
             ResultSet rSet=pstat.executeQuery();
+            boolean found=false;
             while(rSet.next())
             {
+                found=true;
                 String bus_no=rSet.getString("bus_no");
                 Date date_booked=rSet.getDate("date_booked");
                 String start=rSet.getString("starting_point");
@@ -268,6 +292,9 @@ public class bus {
                 int cap=rSet.getInt("capacity");
                 System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
             }
+              if (!found) {
+            System.out.println("No such bus found");
+        }
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -286,12 +313,15 @@ public class bus {
                 Thread.sleep(450);
                 i--;
             }
+            System.out.println();
             String query="Select * from buses where amount<=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setInt(1, amount);
             ResultSet rSet=pstat.executeQuery();
+            boolean found=false;
             while(rSet.next())
             {
+                found=true;
                 String bus_no=rSet.getString("bus_no");
                 Date date_booked=rSet.getDate("date_booked");
                 String start=rSet.getString("starting_point");
@@ -302,6 +332,9 @@ public class bus {
                 int cap=rSet.getInt("capacity");
                 System.out.println(bus_no+"     |     "+date_booked+"   |   "+start+"     |     "+dest+"    |    "+cap+"    |    "+amt+"   |   "+status+"   |   "+time);
             }
+              if (!found) {
+            System.out.println("No such bus found");
+        }
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -348,6 +381,7 @@ public class bus {
         System.out.println("3. Destination point");
         System.out.println("4. Amount");
         System.out.println("5. Status");
+        System.out.println("0. Exit");
         int choice=sc.nextInt();
         switch(choice)
         {
@@ -366,6 +400,8 @@ public class bus {
             case 5:
               update_status(connection);
               break;
+            case 0:
+            return;
             default:
               System.out.println("Wrong choice");
               break;
@@ -564,7 +600,9 @@ public class bus {
         System.out.println("Choose an option");
         System.out.println("1. Add a new bus");
         System.out.println("2. Fetch bus details");
-        System.out.println("3. Update bus details");
+        System.out.println("3. Fetch all details");
+        System.out.println("4. Update bus details");
+        System.out.println("5. Delete a bus");
         System.out.println("0. Exit");
         int choice=sc.nextInt();
         switch(choice)
@@ -576,17 +614,23 @@ public class bus {
             fetch(connection);
             break;
             case 3:
+            fetchAll(connection);
+            break;
+            case 4:
             update_bus(connection);
             break;
+            case 5:
+            del_bus(connection);
+            break;
             case 0:
-            try
-            {
-                exit();
-            }
-            catch(InterruptedException e)
-            {
-                System.out.println(e.getMessage());
-            }
+            // try
+            // {
+            //     exit();
+            // }
+            // catch(InterruptedException e)
+            // {
+            //     System.out.println(e.getMessage());
+            // }
             return;
             default:
             System.out.println("Wrong Option");
@@ -594,15 +638,15 @@ public class bus {
     }
         
      }
-     private void exit() throws InterruptedException {
-    System.out.print("Exiting");
-    int i = 5;
-    while (i-- > 0) {
-        System.out.print(".");
-        Thread.sleep(450);
-    }
-    System.out.println(" Goodbye!");
-    System.exit(0);
-}
+//      private void exit() throws InterruptedException {
+//     System.out.print("Exiting");
+//     int i = 5;
+//     while (i-- > 0) {
+//         System.out.print(".");
+//         Thread.sleep(450);
+//     }
+//     System.out.println(" Goodbye!");
+//     System.exit(0);
+// }
 
 }
