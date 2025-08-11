@@ -4,6 +4,7 @@ import java.util.*;
 import com.bus.db.dbconnection;
 import java.sql.Connection;
 import com.bus.crud.bus;
+import com.bus.crud.customer;
 public class App 
 {
     public static void main( String[] args )
@@ -12,6 +13,7 @@ public class App
         try {
             Connection con=dbconnection.getConnection();
             bus busService=new bus();
+            customer cusService=new customer();
             while(true)
             {
                 System.out.println("-------------------------");
@@ -26,6 +28,8 @@ public class App
                     case 1:
                         busService.choose(con);
                         break;
+                    case 2:
+                        cusService.choose(con);
                     case 0:
                         System.out.print("Exiting");
                         int i = 5;
