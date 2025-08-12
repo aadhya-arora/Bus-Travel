@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Random;
 import java.util.Scanner;
 public class customer {
@@ -409,12 +408,24 @@ public class customer {
         System.out.println("Booking id for the reservation to cancel:");
         int booking_id=sc.nextInt();
         try{
+            String fetchBusQuery = "SELECT bus_no FROM customer WHERE booking_id = ?";
+            PreparedStatement fetchStmt = connection.prepareStatement(fetchBusQuery);
+            fetchStmt.setInt(1, booking_id);
+            ResultSet rs = fetchStmt.executeQuery();
+            String bus_no = null;
+            if (rs.next()) {
+                bus_no = rs.getString("bus_no");
+            } else {
+            System.out.println("No such booking found.");
+            return;
+            }
             String query="Delete from customer where booking_id=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setInt(1, booking_id);
             int rSet=pstat.executeUpdate();
             if(rSet>0)
             {
+                capacity_increase(connection,bus_no);
                 System.out.print("Deleting..");
                 int i=5;
                 while(i!=0)
@@ -422,6 +433,7 @@ public class customer {
                     System.out.print("..");
                     Thread.sleep(450);
                     i--;
+                    System.out.println();
                 }
                 System.out.println("Your reservation successfully cancelled");
             }
@@ -504,5 +516,16 @@ public class customer {
            System.out.println(e.getMessage());
         }
         return false;
+    }
+    public void capacity_increase(Connection connection,String bus_no)
+    {
+        try {
+             String query="Update buses set capacity=capacity+1 where bus_no=? AND capacity < 70";
+            PreparedStatement pstat=connection.prepareStatement(query);
+            pstat.setString(1, bus_no);
+            pstat.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
