@@ -30,6 +30,7 @@ public class App
                         break;
                     case 2:
                         cusService.choose(con);
+                        break;
                     case 0:
                         System.out.print("Exiting");
                         int i = 5;

@@ -415,7 +415,7 @@ public class bus {
             String bus_id=sc.next();
             System.out.println("Change capacity to :");
             int cap=sc.nextInt();
-            String query="Update buses set capacity=? where bus_id=?";
+            String query="Update buses set capacity=? where bus_no=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setInt(1,cap);
             pstat.setString(2, bus_id);
@@ -450,7 +450,7 @@ public class bus {
             sc.nextLine();
             System.out.println("Change Departure point to:");
             String dept=sc.nextLine();
-            String query="Update buses set starting_point=? where bus_id=?";
+            String query="Update buses set starting_point=? where bus_no=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setString(1,dept);
             pstat.setString(2,bus_id);
@@ -486,7 +486,7 @@ public class bus {
             System.out.println("Change Destination point to:");
 
             String dest=sc.nextLine();
-            String query="Update buses set destination_point=? where bus_id=?";
+            String query="Update buses set destination_point=? where bus_no=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setString(1,dest);
             pstat.setString(2,bus_id);
@@ -520,7 +520,7 @@ public class bus {
             String bus_id=sc.next();
             System.out.println("Change amount to:");
             double amt=sc.nextDouble();
-            String query="Update buses set amount=? where bus_id=?";
+            String query="Update buses set amount=? where bus_no=?";
             PreparedStatement pstat=connection.prepareStatement(query);
             pstat.setDouble(1,amt);
             pstat.setString(2,bus_id);
@@ -551,7 +551,7 @@ public class bus {
         System.out.print("Enter Bus No: ");
         String bus_id = sc.next();
 
-        String getStatusQuery = "SELECT status FROM buses WHERE bus_id = ?";
+        String getStatusQuery = "SELECT status FROM buses WHERE bus_no = ?";
         PreparedStatement psGet = connection.prepareStatement(getStatusQuery);
         psGet.setString(1, bus_id);
         ResultSet rs = psGet.executeQuery();
@@ -573,7 +573,7 @@ public class bus {
             return;
         }
 
-        String updateQuery = "UPDATE buses SET status = ? WHERE bus_id = ?";
+        String updateQuery = "UPDATE buses SET status = ? WHERE bus_no = ?";
         PreparedStatement psUpdate = connection.prepareStatement(updateQuery);
         psUpdate.setString(1, newStatus);
         psUpdate.setString(2, bus_id);
